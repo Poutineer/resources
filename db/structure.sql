@@ -98,6 +98,72 @@ CREATE TABLE public.accounts (
 
 
 --
+-- Name: allergies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.allergies (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name text NOT NULL,
+    moderation_state text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: allergies_menu_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.allergies_menu_items (
+    allergy_id uuid NOT NULL,
+    menu_item_id uuid NOT NULL
+);
+
+
+--
+-- Name: allergies_recipes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.allergies_recipes (
+    allergy_id uuid NOT NULL,
+    recipe_id uuid NOT NULL
+);
+
+
+--
+-- Name: answers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.answers (
+    id bigint NOT NULL,
+    body text NOT NULL,
+    question_id bigint NOT NULL,
+    moderation_state text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.answers_id_seq OWNED BY public.answers.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -106,6 +172,100 @@ CREATE TABLE public.ar_internal_metadata (
     value character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: critiques; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.critiques (
+    id bigint NOT NULL,
+    author_id uuid NOT NULL,
+    review_id uuid NOT NULL,
+    question_id bigint NOT NULL,
+    answer_id bigint NOT NULL,
+    gauge integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: critiques_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.critiques_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: critiques_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.critiques_id_seq OWNED BY public.critiques.id;
+
+
+--
+-- Name: diets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diets (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name text NOT NULL,
+    moderation_state text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: diets_menu_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diets_menu_items (
+    diet_id uuid NOT NULL,
+    menu_item_id uuid NOT NULL
+);
+
+
+--
+-- Name: diets_recipes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.diets_recipes (
+    diet_id uuid NOT NULL,
+    recipe_id uuid NOT NULL
+);
+
+
+--
+-- Name: establishments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.establishments (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name text NOT NULL,
+    slug public.citext NOT NULL,
+    google_places_id text,
+    google_place jsonb DEFAULT '{}'::jsonb NOT NULL,
+    moderation_state public.citext NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: establishments_payment_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.establishments_payment_types (
+    establishment_id uuid NOT NULL,
+    payment_type_id uuid NOT NULL
 );
 
 
@@ -189,6 +349,22 @@ CREATE TABLE public.gutentag_tags (
 
 
 --
+-- Name: menu_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.menu_items (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name text NOT NULL,
+    slug public.citext NOT NULL,
+    description text NOT NULL,
+    moderation_state public.citext NOT NULL,
+    establishment_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: payment_types; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -220,6 +396,74 @@ CREATE TABLE public.payments (
     updated_at timestamp without time zone NOT NULL,
     CONSTRAINT payments_restitution_cents_null CHECK (((NOT (processing_state OPERATOR(public.=) 'refunded'::public.citext)) OR (restitution_cents IS NOT NULL))),
     CONSTRAINT payments_restitution_currency_null CHECK (((NOT (processing_state OPERATOR(public.=) 'refunded'::public.citext)) OR (restitution_currency IS NOT NULL)))
+);
+
+
+--
+-- Name: questions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.questions (
+    id bigint NOT NULL,
+    body text NOT NULL,
+    kind text NOT NULL,
+    moderation_state text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.questions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
+
+
+--
+-- Name: recipes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recipes (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name text NOT NULL,
+    slug public.citext NOT NULL,
+    moderation_state public.citext NOT NULL,
+    body text NOT NULL,
+    author_id uuid NOT NULL,
+    ingredients text[] DEFAULT '{}'::text[] NOT NULL,
+    instructions text[] DEFAULT '{}'::text[] NOT NULL,
+    cook_time integer NOT NULL,
+    prep_time integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reviews (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    author_id uuid NOT NULL,
+    body text NOT NULL,
+    slug text NOT NULL,
+    moderation_state text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -271,6 +515,20 @@ ALTER SEQUENCE public.versions_id_seq OWNED BY public.versions.id;
 
 
 --
+-- Name: answers id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers ALTER COLUMN id SET DEFAULT nextval('public.answers_id_seq'::regclass);
+
+
+--
+-- Name: critiques id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.critiques ALTER COLUMN id SET DEFAULT nextval('public.critiques_id_seq'::regclass);
+
+
+--
 -- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -282,6 +540,13 @@ ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.gutentag_taggings ALTER COLUMN id SET DEFAULT nextval('public.gutentag_taggings_id_seq'::regclass);
+
+
+--
+-- Name: questions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.questions_id_seq'::regclass);
 
 
 --
@@ -316,11 +581,51 @@ ALTER TABLE ONLY public.accounts
 
 
 --
+-- Name: allergies allergies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allergies
+    ADD CONSTRAINT allergies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: answers answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT answers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: critiques critiques_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.critiques
+    ADD CONSTRAINT critiques_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: diets diets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets
+    ADD CONSTRAINT diets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: establishments establishments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.establishments
+    ADD CONSTRAINT establishments_pkey PRIMARY KEY (id);
 
 
 --
@@ -348,6 +653,14 @@ ALTER TABLE ONLY public.gutentag_tags
 
 
 --
+-- Name: menu_items menu_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.menu_items
+    ADD CONSTRAINT menu_items_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: payment_types payment_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -361,6 +674,30 @@ ALTER TABLE ONLY public.payment_types
 
 ALTER TABLE ONLY public.payments
     ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: questions questions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.questions
+    ADD CONSTRAINT questions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recipes recipes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipes
+    ADD CONSTRAINT recipes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_pkey PRIMARY KEY (id);
 
 
 --
@@ -429,6 +766,209 @@ CREATE INDEX index_accounts_on_username ON public.accounts USING btree (username
 
 
 --
+-- Name: index_allergies_menu_items_on_allergy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allergies_menu_items_on_allergy_id ON public.allergies_menu_items USING btree (allergy_id);
+
+
+--
+-- Name: index_allergies_menu_items_on_allergy_id_and_menu_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_allergies_menu_items_on_allergy_id_and_menu_item_id ON public.allergies_menu_items USING btree (allergy_id, menu_item_id);
+
+
+--
+-- Name: index_allergies_menu_items_on_menu_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allergies_menu_items_on_menu_item_id ON public.allergies_menu_items USING btree (menu_item_id);
+
+
+--
+-- Name: index_allergies_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allergies_on_moderation_state ON public.allergies USING btree (moderation_state);
+
+
+--
+-- Name: index_allergies_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_allergies_on_name ON public.allergies USING btree (name);
+
+
+--
+-- Name: index_allergies_recipes_on_allergy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allergies_recipes_on_allergy_id ON public.allergies_recipes USING btree (allergy_id);
+
+
+--
+-- Name: index_allergies_recipes_on_recipe_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allergies_recipes_on_recipe_id ON public.allergies_recipes USING btree (recipe_id);
+
+
+--
+-- Name: index_allergies_recipes_on_recipe_id_and_allergy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_allergies_recipes_on_recipe_id_and_allergy_id ON public.allergies_recipes USING btree (recipe_id, allergy_id);
+
+
+--
+-- Name: index_answers_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_answers_on_moderation_state ON public.answers USING btree (moderation_state);
+
+
+--
+-- Name: index_answers_on_question_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_answers_on_question_id ON public.answers USING btree (question_id);
+
+
+--
+-- Name: index_critiques_on_all_relationships; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_critiques_on_all_relationships ON public.critiques USING btree (author_id, question_id, review_id, answer_id);
+
+
+--
+-- Name: index_critiques_on_answer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_critiques_on_answer_id ON public.critiques USING btree (answer_id);
+
+
+--
+-- Name: index_critiques_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_critiques_on_author_id ON public.critiques USING btree (author_id);
+
+
+--
+-- Name: index_critiques_on_question_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_critiques_on_question_id ON public.critiques USING btree (question_id);
+
+
+--
+-- Name: index_critiques_on_review_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_critiques_on_review_id ON public.critiques USING btree (review_id);
+
+
+--
+-- Name: index_diets_menu_items_on_diet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_menu_items_on_diet_id ON public.diets_menu_items USING btree (diet_id);
+
+
+--
+-- Name: index_diets_menu_items_on_diet_id_and_menu_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_diets_menu_items_on_diet_id_and_menu_item_id ON public.diets_menu_items USING btree (diet_id, menu_item_id);
+
+
+--
+-- Name: index_diets_menu_items_on_menu_item_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_menu_items_on_menu_item_id ON public.diets_menu_items USING btree (menu_item_id);
+
+
+--
+-- Name: index_diets_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_on_moderation_state ON public.diets USING btree (moderation_state);
+
+
+--
+-- Name: index_diets_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_diets_on_name ON public.diets USING btree (name);
+
+
+--
+-- Name: index_diets_recipes_on_diet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_recipes_on_diet_id ON public.diets_recipes USING btree (diet_id);
+
+
+--
+-- Name: index_diets_recipes_on_recipe_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_diets_recipes_on_recipe_id ON public.diets_recipes USING btree (recipe_id);
+
+
+--
+-- Name: index_diets_recipes_on_recipe_id_and_diet_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_diets_recipes_on_recipe_id_and_diet_id ON public.diets_recipes USING btree (recipe_id, diet_id);
+
+
+--
+-- Name: index_establishments_on_google_places_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_establishments_on_google_places_id ON public.establishments USING btree (google_places_id);
+
+
+--
+-- Name: index_establishments_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_establishments_on_moderation_state ON public.establishments USING btree (moderation_state);
+
+
+--
+-- Name: index_establishments_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_establishments_on_slug ON public.establishments USING btree (slug);
+
+
+--
+-- Name: index_establishments_payment_types_on_establishment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_establishments_payment_types_on_establishment_id ON public.establishments_payment_types USING btree (establishment_id);
+
+
+--
+-- Name: index_establishments_payment_types_on_join_ids; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_establishments_payment_types_on_join_ids ON public.establishments_payment_types USING btree (establishment_id, payment_type_id);
+
+
+--
+-- Name: index_establishments_payment_types_on_payment_type_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_establishments_payment_types_on_payment_type_id ON public.establishments_payment_types USING btree (payment_type_id);
+
+
+--
 -- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -492,6 +1032,27 @@ CREATE INDEX index_gutentag_tags_on_updated_at ON public.gutentag_tags USING btr
 
 
 --
+-- Name: index_menu_items_on_establishment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_menu_items_on_establishment_id ON public.menu_items USING btree (establishment_id);
+
+
+--
+-- Name: index_menu_items_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_menu_items_on_moderation_state ON public.menu_items USING btree (moderation_state);
+
+
+--
+-- Name: index_menu_items_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_menu_items_on_slug ON public.menu_items USING btree (slug);
+
+
+--
 -- Name: index_payment_types_on_moderation_state; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -541,6 +1102,69 @@ CREATE INDEX index_payments_on_subtype ON public.payments USING btree (subtype);
 
 
 --
+-- Name: index_questions_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_questions_on_moderation_state ON public.questions USING btree (moderation_state);
+
+
+--
+-- Name: index_recipes_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipes_on_author_id ON public.recipes USING btree (author_id);
+
+
+--
+-- Name: index_recipes_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipes_on_created_at ON public.recipes USING btree (created_at);
+
+
+--
+-- Name: index_recipes_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipes_on_moderation_state ON public.recipes USING btree (moderation_state);
+
+
+--
+-- Name: index_recipes_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_recipes_on_slug ON public.recipes USING btree (slug);
+
+
+--
+-- Name: index_recipes_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recipes_on_updated_at ON public.recipes USING btree (updated_at);
+
+
+--
+-- Name: index_reviews_on_author_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_author_id ON public.reviews USING btree (author_id);
+
+
+--
+-- Name: index_reviews_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_created_at ON public.reviews USING btree (created_at);
+
+
+--
+-- Name: index_reviews_on_moderation_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_moderation_state ON public.reviews USING btree (moderation_state);
+
+
+--
 -- Name: index_versions_on_actor_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -576,11 +1200,91 @@ CREATE INDEX index_versions_on_item_id_and_item_type ON public.versions USING bt
 
 
 --
+-- Name: recipes fk_rails_08ee84afe6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recipes
+    ADD CONSTRAINT fk_rails_08ee84afe6 FOREIGN KEY (author_id) REFERENCES public.accounts(id);
+
+
+--
+-- Name: establishments_payment_types fk_rails_0ced4f9297; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.establishments_payment_types
+    ADD CONSTRAINT fk_rails_0ced4f9297 FOREIGN KEY (payment_type_id) REFERENCES public.payment_types(id);
+
+
+--
+-- Name: critiques fk_rails_0edfa2088e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.critiques
+    ADD CONSTRAINT fk_rails_0edfa2088e FOREIGN KEY (author_id) REFERENCES public.accounts(id);
+
+
+--
+-- Name: menu_items fk_rails_20953bddc9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.menu_items
+    ADD CONSTRAINT fk_rails_20953bddc9 FOREIGN KEY (establishment_id) REFERENCES public.establishments(id);
+
+
+--
+-- Name: reviews fk_rails_29e6f859c4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_rails_29e6f859c4 FOREIGN KEY (author_id) REFERENCES public.accounts(id);
+
+
+--
 -- Name: versions fk_rails_2e5ab7c04d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.versions
     ADD CONSTRAINT fk_rails_2e5ab7c04d FOREIGN KEY (actor_id) REFERENCES public.accounts(id);
+
+
+--
+-- Name: answers fk_rails_3d5ed4418f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.answers
+    ADD CONSTRAINT fk_rails_3d5ed4418f FOREIGN KEY (question_id) REFERENCES public.questions(id);
+
+
+--
+-- Name: diets_recipes fk_rails_462dabbc1c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets_recipes
+    ADD CONSTRAINT fk_rails_462dabbc1c FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+
+--
+-- Name: establishments_payment_types fk_rails_629197ac5c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.establishments_payment_types
+    ADD CONSTRAINT fk_rails_629197ac5c FOREIGN KEY (establishment_id) REFERENCES public.establishments(id);
+
+
+--
+-- Name: allergies_recipes fk_rails_6590fe6caf; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allergies_recipes
+    ADD CONSTRAINT fk_rails_6590fe6caf FOREIGN KEY (recipe_id) REFERENCES public.recipes(id);
+
+
+--
+-- Name: allergies_recipes fk_rails_6ab7304ced; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allergies_recipes
+    ADD CONSTRAINT fk_rails_6ab7304ced FOREIGN KEY (allergy_id) REFERENCES public.allergies(id);
 
 
 --
@@ -592,11 +1296,67 @@ ALTER TABLE ONLY public.payments
 
 
 --
+-- Name: critiques fk_rails_8c3e5604b1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.critiques
+    ADD CONSTRAINT fk_rails_8c3e5604b1 FOREIGN KEY (question_id) REFERENCES public.questions(id);
+
+
+--
+-- Name: critiques fk_rails_b03422a80b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.critiques
+    ADD CONSTRAINT fk_rails_b03422a80b FOREIGN KEY (review_id) REFERENCES public.reviews(id);
+
+
+--
+-- Name: diets_menu_items fk_rails_bcfaf43e73; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets_menu_items
+    ADD CONSTRAINT fk_rails_bcfaf43e73 FOREIGN KEY (menu_item_id) REFERENCES public.menu_items(id);
+
+
+--
 -- Name: gutentag_taggings fk_rails_cb73a18b77; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.gutentag_taggings
     ADD CONSTRAINT fk_rails_cb73a18b77 FOREIGN KEY (tag_id) REFERENCES public.gutentag_tags(id);
+
+
+--
+-- Name: allergies_menu_items fk_rails_ce1a3efb88; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allergies_menu_items
+    ADD CONSTRAINT fk_rails_ce1a3efb88 FOREIGN KEY (menu_item_id) REFERENCES public.menu_items(id);
+
+
+--
+-- Name: diets_recipes fk_rails_d6b7ea753b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets_recipes
+    ADD CONSTRAINT fk_rails_d6b7ea753b FOREIGN KEY (diet_id) REFERENCES public.diets(id);
+
+
+--
+-- Name: diets_menu_items fk_rails_e2f6a74bca; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.diets_menu_items
+    ADD CONSTRAINT fk_rails_e2f6a74bca FOREIGN KEY (diet_id) REFERENCES public.diets(id);
+
+
+--
+-- Name: allergies_menu_items fk_rails_fd128872e5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allergies_menu_items
+    ADD CONSTRAINT fk_rails_fd128872e5 FOREIGN KEY (allergy_id) REFERENCES public.allergies(id);
 
 
 --
@@ -610,11 +1370,25 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171203045306'),
 ('20171203045307'),
 ('20171203064940'),
+('20171210085937'),
 ('20171230031126'),
 ('20171231104815'),
 ('20171231104816'),
 ('20180127234446'),
+('20180403163727'),
+('20180403163858'),
+('20180408055401'),
+('20180408055440'),
+('20180408055642'),
+('20180408055646'),
 ('20180408203926'),
-('20180702080347');
+('20180408203957'),
+('20180414222011'),
+('20180414222016'),
+('20180702062857'),
+('20180707215031'),
+('20180707215041'),
+('20180707215045'),
+('20180707215806');
 
 

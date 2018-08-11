@@ -20,7 +20,7 @@ Bundler.require(*Rails.groups)
 
 require_relative("../lib/source")
 
-module BlankApiRails
+module Poutineer
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults(5.1)
@@ -48,7 +48,7 @@ module BlankApiRails
     config.active_job.queue_adapter = :sidekiq
     config.cache_store = [
       :redis_store,
-      {:expires_in => 30.minutes, :pool => BlankApiRails::REDIS_CACHE_CONNECTION_POOL}
+      {:expires_in => 30.minutes, :pool => Poutineer::REDIS_CACHE_CONNECTION_POOL}
     ]
 
     # Uses the tags defined below to create logs that are easily grep-able.

@@ -14,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :moderator do
-      after(:create, &:upgrade_to_moderator!)
+      # after(:create, &:upgrade_to_moderator!)
     end
 
     trait :administrator do

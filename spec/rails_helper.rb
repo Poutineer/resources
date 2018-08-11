@@ -5,6 +5,7 @@ require(File.expand_path("../config/environment", __dir__))
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require("rspec/rails")
+# require("paper_trail/frameworks/rspec")
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -25,6 +26,7 @@ require("rspec/rails")
 require_relative("support/matchers/jsonapi_response")
 require_relative("support/contexts/jsonapi_request")
 require_relative("support/contexts/jsonapi_requests")
+require_relative("support/contexts/google_places_api")
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -128,9 +130,9 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    BlankApiRails::REDIS_OBJECTS_CONNECTION_POOL.with(&:flushdb)
-    BlankApiRails::REDIS_SIDEKIQ_CLIENT_CONNECTION_POOL.with(&:flushdb)
-    BlankApiRails::REDIS_SIDEKIQ_SERVER_CONNECTION_POOL.with(&:flushdb)
-    BlankApiRails::REDIS_CACHE_CONNECTION_POOL.with(&:flushdb)
+    Poutineer::REDIS_OBJECTS_CONNECTION_POOL.with(&:flushdb)
+    Poutineer::REDIS_SIDEKIQ_CLIENT_CONNECTION_POOL.with(&:flushdb)
+    Poutineer::REDIS_SIDEKIQ_SERVER_CONNECTION_POOL.with(&:flushdb)
+    Poutineer::REDIS_CACHE_CONNECTION_POOL.with(&:flushdb)
   end
 end
