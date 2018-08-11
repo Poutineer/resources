@@ -9,7 +9,7 @@ module V1
       authorize(policy_scope(Diet))
 
       realization = JSONAPI::Realizer.index(
-        Diets::IndexSchema.new(modified_parameters),
+        Diets::IndexSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Diet),
         :type => :accounts
@@ -20,7 +20,7 @@ module V1
 
     def show
       realization = JSONAPI::Realizer.show(
-        Diets::ShowSchema.new(modified_parameters),
+        Diets::ShowSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Diet),
         :type => :accounts

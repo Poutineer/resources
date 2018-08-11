@@ -9,7 +9,7 @@ module V1
       authorize(policy_scope(Allergy))
 
       realization = JSONAPI::Realizer.index(
-        Allergies::IndexSchema.new(modified_parameters),
+        Allergies::IndexSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Allergy),
         :type => :accounts
@@ -20,7 +20,7 @@ module V1
 
     def show
       realization = JSONAPI::Realizer.show(
-        Allergies::ShowSchema.new(modified_parameters),
+        Allergies::ShowSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Allergy),
         :type => :accounts

@@ -1,11 +1,9 @@
-require "rails_helper"
+require("rails_helper")
 
-RSpec.describe(Establishment, :type => :model) do
+RSpec.describe(MenuItem, :type => :model) do
   context("creating a record") do
-    include_context("Google Places API")
-
     let(:model) do
-      create(:establishment)
+      create(:menu_item)
     end
 
     it("is valid") do

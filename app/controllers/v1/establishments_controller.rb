@@ -9,7 +9,7 @@ module V1
       authorize(policy_scope(Establishment))
 
       realization = JSONAPI::Realizer.index(
-        Establishments::IndexSchema.new(modified_parameters),
+        Establishments::IndexSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Establishment),
         :type => :accounts
@@ -20,7 +20,7 @@ module V1
 
     def show
       realization = JSONAPI::Realizer.show(
-        Establishments::ShowSchema.new(modified_parameters),
+        Establishments::ShowSchema.new(request.parameters),
         :headers => request.headers,
         :scope => policy_scope(Establishment),
         :type => :accounts
@@ -49,7 +49,7 @@ module V1
 
     def update
       realization = JSONAPI::Realizer.update(
-        Establishments::UpdateSchema.new(modified_parameters),
+        Establishments::UpdateSchema.new(request.parameters),
         :scope => policy_scope(Establishment),
         :headers => request.headers
       )

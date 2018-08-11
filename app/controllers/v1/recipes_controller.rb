@@ -1,17 +1,17 @@
 module V1
-  class MenuItemsController < ::V1::ApplicationController
+  class RecipesController < ::V1::ApplicationController
     discoverable(
       :version => "v1",
       :namespace => "accounts"
     )
 
     def index
-      authorize(policy_scope(MenuItem))
+      authorize(policy_scope(Recipe))
 
       realization = JSONAPI::Realizer.index(
-        MenuItems::IndexSchema.new(request.parameters),
+        Recipes::IndexSchema.new(request.parameters),
         :headers => request.headers,
-        :scope => policy_scope(MenuItem),
+        :scope => policy_scope(Recipe),
         :type => :accounts
       )
 
@@ -20,9 +20,9 @@ module V1
 
     def show
       realization = JSONAPI::Realizer.show(
-        MenuItems::ShowSchema.new(request.parameters),
+        Recipes::ShowSchema.new(request.parameters),
         :headers => request.headers,
-        :scope => policy_scope(MenuItem),
+        :scope => policy_scope(Recipe),
         :type => :accounts
       )
 
@@ -33,8 +33,8 @@ module V1
 
     def create
       realization = JSONAPI::Realizer.create(
-        MenuItems::CreateSchema.new(request.parameters),
-        :scope => policy_scope(MenuItem),
+        Recipes::CreateSchema.new(request.parameters),
+        :scope => policy_scope(Recipe),
         :headers => request.headers
       )
 
@@ -49,8 +49,8 @@ module V1
 
     def update
       realization = JSONAPI::Realizer.update(
-        MenuItems::UpdateSchema.new(request.parameters),
-        :scope => policy_scope(MenuItem),
+        Recipes::UpdateSchema.new(request.parameters),
+        :scope => policy_scope(Recipe),
         :headers => request.headers
       )
 
@@ -59,6 +59,12 @@ module V1
       realization.model.save!
 
       render(:json => serialize(realization))
+    end
+
+    def destroy
+      realization = JSONAPI::Realizer.destroy(
+        Recipes::DestroySchema.new(request.parameters)
+      )
     end
   end
 end

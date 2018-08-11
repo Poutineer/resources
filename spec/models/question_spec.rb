@@ -1,11 +1,9 @@
-require "rails_helper"
+require("rails_helper")
 
-RSpec.describe(Establishment, :type => :model) do
+RSpec.describe(Question, :type => :model) do
   context("creating a record") do
-    include_context("Google Places API")
-
     let(:model) do
-      create(:establishment)
+      create(:question)
     end
 
     it("is valid") do
