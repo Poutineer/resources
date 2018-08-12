@@ -11,6 +11,9 @@
     "ORIGIN_LOCATION": {
       "required": true
     },
+    "HOME_LOCATION": {
+      "required": true
+    },
     "RAILS_HOST": {
       "required": true
     },

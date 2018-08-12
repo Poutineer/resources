@@ -20,6 +20,7 @@ shared:
         RACK_TIMEOUT_SERVICE_TIMEOUT: 25
         WWW_LOCATION: "localhost"
         ORIGIN_LOCATION: "http://localhost:3001"
+        HOME_LOCATION: "http://localhost:3001"
         RAILS_EMAIL_HOST: "localhost"
         RAILS_EMAIL_USER: "noreply"
         RAILS_HOST: "localhost"
