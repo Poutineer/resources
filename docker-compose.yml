@@ -29,10 +29,10 @@ services:
       - WEB_CONCURRENCY=2
       - RAILS_EMAIL_HOST=localhost
       - RAILS_EMAIL_USER=noreply
-      - ORIGIN_LOCATION=http://origin.blank-api-rails.local
-      - WWW_LOCATION=http://www.blank-api-rails.local
-      - RAILS_HOST=origin.blank-api-rails.local
-      - VIRTUAL_HOST=origin.blank-api-rails.local
+      - ORIGIN_LOCATION=http://origin.poutineer.local
+      - WWW_LOCATION=http://www.poutineer.local
+      - RAILS_HOST=origin.poutineer.local
+      - VIRTUAL_HOST=origin.poutineer.local
       - BUGSNAG_API_PRIVATE
       - ORIGIN_ENCRYPTION_PRIVATE
       - ORIGIN_ENCRYPTION_SALT
@@ -40,23 +40,23 @@ services:
   postgres:
     image: postgres:9.6-alpine
     environment:
-      - VIRTUAL_HOST=postgres.blank-api-rails.local
+      - VIRTUAL_HOST=postgres.poutineer.local
   redis-sidekiq:
     image: redis:3.2.11-alpine
     environment:
-      - VIRTUAL_HOST=redis-sidekiq.blank-api-rails.local
+      - VIRTUAL_HOST=redis-sidekiq.poutineer.local
   redis-objects:
     image: redis:3.2.11-alpine
     environment:
-      - VIRTUAL_HOST=redis-objects.blank-api-rails.local
+      - VIRTUAL_HOST=redis-objects.poutineer.local
   redis-cache:
     image: redis:3.2.11-alpine
     environment:
-      - VIRTUAL_HOST=redis-cache.blank-api-rails.local
+      - VIRTUAL_HOST=redis-cache.poutineer.local
   redis-redlock:
     image: redis:3.2.11-alpine
     environment:
-      - VIRTUAL_HOST=redis-redlock.blank-api-rails.local
+      - VIRTUAL_HOST=redis-redlock.poutineer.local
   proxy:
     image: jwilder/nginx-proxy:alpine
     ports:

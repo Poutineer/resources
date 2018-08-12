@@ -1,6 +1,6 @@
 {
-  "name": "blank-api-rails",
-  "description": "A blank rails api",
+  "name": "poutineer",
+  "description": "The poutineer origin service",
   "scripts": {
     "postdeploy": "bin/postdeploy"
   },
