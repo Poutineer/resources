@@ -356,7 +356,7 @@ CREATE TABLE public.menu_items (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     name text NOT NULL,
     slug public.citext NOT NULL,
-    description text NOT NULL,
+    body text NOT NULL,
     moderation_state public.citext NOT NULL,
     establishment_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
