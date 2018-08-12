@@ -17,7 +17,7 @@ shared:
         RACK_ENV: "test"
         WEB_CONCURRENCY: 2
         RAILS_MAX_THREADS: 2
-        RACK_SERVICE_TIMEOUT: 25
+        RACK_TIMEOUT_SERVICE_TIMEOUT: 25
         WWW_LOCATION: "localhost"
         HOME_LOCATION: "http://localhost:3001"
         RAILS_EMAIL_HOST: "localhost"
