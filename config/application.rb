@@ -53,7 +53,7 @@ module Poutineer
     config.cache_store = [
       :redis_cache_store,
       {
-        :driver => :hiredis
+        :driver => :hiredis,
         :expires_in => 30.minutes,
         :compress => true,
         :redis => Poutineer::REDIS_CACHE_CONNECTION_POOL
