@@ -38,6 +38,7 @@ class RequestErrorHandlingOperation < ApplicationOperation
     when JSONAPI::Realizer::Error::MalformedDataRootProperty then malformed_data_root_property(state.controller)
     when Pundit::NotAuthorizedError then access_not_authorized(state.controller)
     when ActiveRecord::RecordInvalid then record_invalid(state.controller, state.exception)
+    when ActiveRecord::RecordNotFound then record_not_found(state.controller)
     when StateMachines::InvalidTransition then invalid_transition(state.controller)
     when SmartParams::Error::InvalidPropertyType then invalid_property_type(state.controller, state.exception)
     when ApplicationError then application_exception(state.controller, state.exception)
@@ -50,6 +51,10 @@ class RequestErrorHandlingOperation < ApplicationOperation
       :json => JSONAPI::Serializer.serialize_errors(exception.record.errors),
       :status => :unprocessable_entity
     )
+  end
+
+  private def record_not_found(controller)
+    controller.head(:not_found)
   end
 
   private def application_exception(controller, exception)
