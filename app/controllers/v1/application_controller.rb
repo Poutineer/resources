@@ -108,12 +108,6 @@ module V1
       }
     end
 
-    private def current_cart
-      if account_signed_in?
-        @current_cart ||= current_account.unfinished_cart
-      end
-    end
-
     private def serialized_metadata
       {
         :api => {
