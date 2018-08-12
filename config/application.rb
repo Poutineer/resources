@@ -62,8 +62,9 @@ module Poutineer
 
     # Set the http-level caching
     config.action_dispatch.rack_cache = {
-      :metastore => Poutineer::REDIS_CACHE_CONNECTION_POOL,
-      :entitystore => Poutineer::REDIS_CACHE_CONNECTION_POOL
+      :metastore => "#{ENV.fetch("REDIS_CACHE_URL")}/metastore",
+      :entitystore => "#{ENV.fetch("REDIS_CACHE_URL")}/entitystore",
+      :default_ttl => 1.week.from_now.to_i
     }
 
     # Uses the tags defined below to create logs that are easily grep-able.
