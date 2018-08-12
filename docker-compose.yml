@@ -36,7 +36,7 @@ services:
       - BUGSNAG_API_PRIVATE
       - ORIGIN_ENCRYPTION_PRIVATE
       - ORIGIN_ENCRYPTION_SALT
-      - RAILS_SESSION_PRIVATE
+      - RAILS_SESSION_SECRET
   postgres:
     image: postgres:9.6-alpine
     environment:

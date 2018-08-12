@@ -23,7 +23,7 @@ shared:
         RAILS_EMAIL_HOST: "localhost"
         RAILS_EMAIL_USER: "noreply"
         RAILS_HOST: "localhost"
-        RAILS_SESSION_PRIVATE: "private"
+        RAILS_SESSION_SECRET: "private"
         REDIS_REDLOCK_URL: "redis://localhost:6379/0"
         REDIS_REDLOCK_POOL_SIZE: 2
         REDIS_CACHE_URL: "redis://localhost:6379/1"
