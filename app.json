@@ -8,6 +8,9 @@
     "WWW_LOCATION": {
       "required": true
     },
+    "ORIGIN_LOCATION": {
+      "required": true
+    },
     "RAILS_HOST": {
       "required": true
     },
