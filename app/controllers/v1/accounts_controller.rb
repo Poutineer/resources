@@ -28,7 +28,7 @@ module V1
 
       authorize(realization.model)
 
-      if stale?(realization.model)
+      if stale?(etag: realization.model)
         render(:json => serialize(realization))
       end
     end
