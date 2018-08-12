@@ -34,7 +34,7 @@ services:
       - RAILS_HOST=origin.poutineer.local
       - VIRTUAL_HOST=origin.poutineer.local
       - BUGSNAG_API_PRIVATE
-      - ORIGIN_ENCRYPTION_PRIVATE
+      - ORIGIN_ENCRYPTION_SECRET
       - ORIGIN_ENCRYPTION_SALT
   postgres:
     image: postgres:9.6-alpine

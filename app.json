@@ -14,7 +14,7 @@
     "RAILS_HOST": {
       "required": true
     },
-    "ORIGIN_ENCRYPTION_PRIVATE": {
+    "ORIGIN_ENCRYPTION_SECRET": {
       "generator": "secret"
     },
     "ORIGIN_ENCRYPTION_SALT": {
