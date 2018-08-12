@@ -46,10 +46,23 @@ module Poutineer
     config.action_controller.include_all_helpers = false
     config.active_record.schema_format = :sql
     config.active_job.queue_adapter = :sidekiq
+
+    # Set the application-level cache
     config.cache_store = [
-      :redis_store,
-      {:expires_in => 30.minutes, :pool => Poutineer::REDIS_CACHE_CONNECTION_POOL}
+      :redis_cache_store,
+      {
+        :driver => :hiredis
+        :expires_in => 30.minutes,
+        :compress => true,
+        :redis => Poutineer::REDIS_CACHE_CONNECTION_POOL
+      }
     ]
+
+    # Set the http-level caching
+    config.action_dispatch.rack_cache = {
+      :metastore => Poutineer::REDIS_CACHE_CONNECTION_POOL,
+      :entitystore => Poutineer::REDIS_CACHE_CONNECTION_POOL
+    }
 
     # Uses the tags defined below to create logs that are easily grep-able.
     unless Rails.env.test?
