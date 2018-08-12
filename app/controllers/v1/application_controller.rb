@@ -52,7 +52,6 @@ module V1
       return unless account_signed_in?
 
       report.user = {
-        :email => current_account.email,
         :id => current_account.id
       }
     end

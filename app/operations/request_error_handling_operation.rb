@@ -1,13 +1,7 @@
 class RequestErrorHandlingOperation < ApplicationOperation
   task(:write_to_log)
+  task(:notify_bugsnag)
   task(:render_output)
-  task(:missing_accept_header, :required => false)
-  task(:invalid_accept_header, :required => false)
-  task(:malformed_data_root_property, :required => false)
-  task(:access_not_authorized, :required => false)
-  task(:record_invalid, :required => false)
-  task(:application_exception, :required => false)
-  task(:unhandled_exception, :required => false)
 
   schema(:write_to_log) do
     field(:exception, :type => Types.Instance(StandardError))
@@ -25,6 +19,31 @@ class RequestErrorHandlingOperation < ApplicationOperation
       Rails.logger.error("#{state.exception.class.name} was raised due to #{state.exception.message.inspect}")
     end
     Rails.logger.debug(state.exception.full_message)
+  end
+
+  schema(:notify_bugsnag) do
+    field(:controller, :type => Types.Instance(ApplicationController))
+    field(:exception, :type => Types.Instance(StandardError))
+  end
+  def notify_bugsnag(state:)
+    return unless Rails.env.production?
+    if state.controller.account_signed_in?
+      Bugsnag.before_notify_callbacks << ->(report) do
+        report.user = {
+          id: state.controller.current_account.id
+        }
+      end
+    end
+
+    Bugsnag.before_notify_callbacks << ->(report) do
+      report.add_tab(
+        :metadata,
+        :request_id => request.request_id,
+        :session_id => if account_signed_in? then session.id end
+      )
+    end
+
+    Bugsnag.notify(state.exception)
   end
 
   schema(:render_output) do
