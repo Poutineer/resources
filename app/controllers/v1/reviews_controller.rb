@@ -62,9 +62,9 @@ module V1
     end
 
     def destroy
-      realization = JSONAPI::Realizer.destroy(
-        Reviews::DestroySchema.new(request.parameters)
-      )
+      # realization = JSONAPI::Realizer.destroy(
+      #   Reviews::DestroySchema.new(request.parameters)
+      # )
     end
   end
 end
