@@ -61,10 +61,10 @@ module Poutineer
     ]
 
     # Set the http-level caching
-    config.action_dispatch.rack_cache = {
-      :metastore => "#{ENV.fetch("REDIS_CACHE_URL")}/metastore",
-      :entitystore => "#{ENV.fetch("REDIS_CACHE_URL")}/entitystore",
-      :default_ttl => 1.week.from_now.to_i
+    config.action_controller.perform_caching = true
+    config.action_mailer.perform_caching = true
+    config.public_file_server.headers = {
+      "Cache-Control" => "public, max-age=#{Integer(1.week.seconds)}"
     }
 
     # Uses the tags defined below to create logs that are easily grep-able.
@@ -76,7 +76,7 @@ module Poutineer
 
     # Each of the below adds one informational piece to each logline
     config.log_tags = [
-      -> (_request) {"time=#{Time.now.iso8601}"},
+      lambda do |request| "time=#{Time.now.iso8601}" end,
       lambda do |request|
         "remote-ip=#{request.remote_ip}" if request.remote_ip
       end,
