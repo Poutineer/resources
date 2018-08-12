@@ -37,9 +37,11 @@ class RequestErrorHandlingOperation < ApplicationOperation
 
     Bugsnag.before_notify_callbacks << ->(report) do
       report.add_tab(
-        :metadata,
-        :request_id => request.request_id,
-        :session_id => if account_signed_in? then session.id end
+        :request,
+        :request_id => state.controller.request.request_id,
+        :session_id => if state.controller.account_signed_in? then state.controller.session.id end,
+        :operation_id => operation_id,
+        :step_id => step_id
       )
     end
 

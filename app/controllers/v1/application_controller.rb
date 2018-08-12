@@ -7,9 +7,6 @@ module V1
     before_action(:reject_missing_accept_header)
     before_action(:reject_incorrect_content_type_header)
     before_action(:reject_incorrect_accept_header)
-    before_action(:assign_paper_trail_context)
-    before_bugsnag_notify(:assign_user_context)
-    before_bugsnag_notify(:assign_metadata_tab)
     after_action(:verify_authorized)
     after_action(:verify_policy_scoped)
 
@@ -33,35 +30,6 @@ module V1
 
     private def pundit_user
       current_account
-    end
-
-    private def assign_paper_trail_context
-      if account_signed_in?
-        PaperTrail.request.whodunnit = current_account.email
-      else
-        PaperTrail.request.whodunnit = "anonymous@system.local"
-      end
-
-      PaperTrail.request.controller_info = {
-        :actor_id => if account_signed_in? then current_account.id end,
-        :context_id => request.request_id
-      }
-    end
-
-    private def assign_user_context(report)
-      return unless account_signed_in?
-
-      report.user = {
-        :id => current_account.id
-      }
-    end
-
-    private def assign_metadata_tab(report)
-      report.add_tab(
-        :metadata,
-        :request_id => request.request_id,
-        :session_id => if account_signed_in? then session.id end
-      )
     end
 
     private def serialize(realization)
