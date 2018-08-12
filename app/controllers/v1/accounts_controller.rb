@@ -28,9 +28,9 @@ module V1
 
       authorize(realization.model)
 
-      if stale?(etag: realization.model)
-        render(:json => serialize(realization))
-      end
+      return unless stale?(:etag => realization.model)
+
+      render(:json => serialize(realization))
     end
 
     def create
