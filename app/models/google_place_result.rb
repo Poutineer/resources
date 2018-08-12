@@ -1,12 +1,12 @@
 class GooglePlaceResult < ApplicationComputed
-  attr_accessor :name
-  attr_accessor :types
-  attr_accessor :phone_number
-  attr_accessor :address
-  attr_accessor :rating
-  attr_accessor :website
-  attr_accessor :schedule
-  attr_accessor :photos
+  attr_accessor(:name)
+  attr_accessor(:types)
+  attr_accessor(:phone_number)
+  attr_accessor(:address)
+  attr_accessor(:rating)
+  attr_accessor(:website)
+  attr_accessor(:schedule)
+  attr_accessor(:photos)
 
   def self.serialize(spot)
     {

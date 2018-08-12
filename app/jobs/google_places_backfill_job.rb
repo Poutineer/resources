@@ -1,5 +1,5 @@
 class GooglePlacesBackfillJob < ApplicationJob
-  sidekiq_options :queue => "google_places"
+  sidekiq_options(:queue => "google_places")
 
   def perform(establishment_id)
     establishment = Establishment.friendly.find(establishment_id)

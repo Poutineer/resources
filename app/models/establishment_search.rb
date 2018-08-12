@@ -1,3 +1,3 @@
 class EstablishmentSearch < Search
-  RESULT_CLASS = "GooglePlaceResult"
+  RESULT_CLASS = "GooglePlaceResult".freeze
 end

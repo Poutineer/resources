@@ -1,6 +1,5 @@
 module V1
   class ApplicationController < ::ApplicationController
-
     include(JSONAPI::Home)
     include(Pundit)
 
@@ -16,20 +15,20 @@ module V1
 
     private def reject_missing_content_type_header
       return if request.body.size.zero?
-      raise MissingContentTypeHeaderError unless request.headers.key?("Content-Type")
+      raise(MissingContentTypeHeaderError) unless request.headers.key?("Content-Type")
     end
 
     private def reject_missing_accept_header
-      raise MissingAcceptHeaderError unless request.headers.key?("Accept")
+      raise(MissingAcceptHeaderError) unless request.headers.key?("Accept")
     end
 
     private def reject_incorrect_content_type_header
       return if request.body.size.zero?
-      raise IncorrectContentTypeHeaderError unless request.headers.fetch("Content-Type").include?(JSONAPI::MEDIA_TYPE)
+      raise(IncorrectContentTypeHeaderError) unless request.headers.fetch("Content-Type").include?(JSONAPI::MEDIA_TYPE)
     end
 
     private def reject_incorrect_accept_header
-      raise IncorrectAcceptHeaderError unless request.headers.fetch("Accept").include?(JSONAPI::MEDIA_TYPE)
+      raise(IncorrectAcceptHeaderError) unless request.headers.fetch("Accept").include?(JSONAPI::MEDIA_TYPE)
     end
 
     private def pundit_user
@@ -81,9 +80,9 @@ module V1
         :fields => if fields.any? then fields end,
         :include => if includes.any? then includes end,
         :is_collection => false,
-        :context => default_context({
-          policy: policy(model)
-        })
+        :context => default_context(
+          :policy => policy(model)
+        )
       )
     end
 
@@ -94,9 +93,9 @@ module V1
         :fields => if fields.any? then fields end,
         :include => if includes.any? then includes end,
         :is_collection => true,
-        :context => default_context({
-          policy: models.map(&method(:policy))
-        })
+        :context => default_context(
+          :policy => models.map(&method(:policy))
+        )
       )
     end
 

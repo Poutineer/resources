@@ -874,6 +874,7 @@ Style/MethodCallWithArgsParentheses:
     - private
     - public
     - protected
+    - private_class_method
   Description: Use parentheses for method calls with arguments.
   StyleGuide: "#method-invocation-parens"
   Enabled: true

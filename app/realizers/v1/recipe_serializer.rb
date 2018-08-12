@@ -5,7 +5,7 @@ module V1
 
     register(:recipies, :class_name => "Recipe", :adapter => :active_record)
 
-    has_one(:account, as: :account)
+    has_one(:account, :as => :account)
 
     has(:name)
     has(:body)

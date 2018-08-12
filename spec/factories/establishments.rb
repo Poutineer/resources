@@ -1,9 +1,9 @@
 FactoryBot.define do
-  factory :establishment do
+  factory(:establishment) do
     name {Faker::Company.unique.name}
     google_places_id {Faker::Number.unique.number(10)}
 
-    trait :with_google_place_data do
+    trait(:with_google_place_data) do
       google_place do
         {
           "types" => ["bar"],

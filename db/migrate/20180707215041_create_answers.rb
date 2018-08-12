@@ -1,6 +1,6 @@
 class CreateAnswers < ActiveRecord::Migration[5.1]
   def change
-    create_table :answers, :id => :bigint do |table|
+    create_table(:answers, :id => :bigint) do |table|
       table.text(:body, :null => false)
       table.bigint(:question_id, :null => false)
       table.text(:moderation_state, :null => false)

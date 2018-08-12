@@ -44,13 +44,13 @@ PaperTrail.request(:whodunnit => Account::MACHINE_ID, :controller_info => {:cont
       {:name => "Online Payments"},
       {:name => "Bitcoin/Cryptocurrency"}
     ])
-    Question.create!({:body => "Did the poutine have real cheese curds?", :kind => "pick_one"}).tap do |question|
+    Question.create!(:body => "Did the poutine have real cheese curds?", :kind => "pick_one").tap do |question|
       question.answers.create!([
         {:body => "Yes"},
         {:body => "No"}
       ])
     end
-    Question.create!({:body => "Did the cheese curds squeak when bitten?", :kind => "pick_one"}).tap do |question|
+    Question.create!(:body => "Did the cheese curds squeak when bitten?", :kind => "pick_one").tap do |question|
       question.answers.create!([
         {:body => "Very sparse"},
         {:body => "A handful"},

@@ -11,7 +11,7 @@ require("action_controller/railtie")
 require("action_mailer/railtie")
 require("action_view/railtie")
 require("action_cable/engine")
-require "active_storage/engine"
+require("active_storage/engine")
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -76,18 +76,22 @@ module Poutineer
 
     # Each of the below adds one informational piece to each logline
     config.log_tags = [
-      lambda do |request| "time=#{Time.now.iso8601}" end,
-      lambda do |request|
+      ->(_) do "time=#{Time.now.iso8601}" end,
+      ->(request) do
         "remote-ip=#{request.remote_ip}" if request.remote_ip
       end,
-      lambda do |request|
+      ->(request) do
         if request.cookie_jar.encrypted.try!(:[], config.session_options[:key]).try!(:[], "session_id")
           "session-id=#{request.cookie_jar.encrypted.try!(:[], config.session_options[:key]).try!(:[], "session_id")}"
         end
       end,
-      lambda do |request|
+      ->(request) do
         "context-id=#{request.request_id}" if request.request_id
       end
+    ]
+    config.action_cable.log_tags = [
+      :action_cable,
+      ->(request) {request.uuid}
     ]
 
     if ENV.fetch("HEROKU_APP_NAME", nil)

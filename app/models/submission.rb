@@ -1,5 +1,5 @@
 class Submission < ApplicationComputed
-  attr_accessor :subject
+  attr_accessor(:subject)
 
   def self.all
     [
@@ -11,7 +11,7 @@ class Submission < ApplicationComputed
     end
   end
 
-  delegate :name, :to => :subject
+  delegate(:name, :to => :subject)
 
   def category
     subject.class.model_name

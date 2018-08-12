@@ -17,7 +17,7 @@ class RequestErrorHandlingOperation < ApplicationOperation
     when StateMachines::InvalidTransition
       Rails.logger.debug("#{state.exception.object.class.name} failed to save due to #{state.exception.object.errors.full_messages.to_sentence}")
     when Pundit::NotAuthorizedError
-      Rails.logger.debug("#{state.exception.policy.class.name} did not allow #{state.exception.policy.actor.to_gid} to #{state.exception.query.gsub("?", "")} a #{state.exception.policy.record.class}")
+      Rails.logger.debug("#{state.exception.policy.class.name} did not allow #{state.exception.policy.actor.to_gid} to #{state.exception.query.delete("?")} a #{state.exception.policy.record.class}")
     when ActiveRecord::RecordInvalid
       Rails.logger.error("#{state.exception.record.class.name} failed to save due to #{state.exception.record.errors.full_messages.to_sentence}")
       Rails.logger.error(state.exception.record.attributes.as_json)

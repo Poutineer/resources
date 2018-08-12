@@ -1,6 +1,6 @@
 class CreateDiets < ActiveRecord::Migration[5.1]
   def change
-    create_table :diets, :id => :uuid do |table|
+    create_table(:diets, :id => :uuid) do |table|
       table.text(:name, :null => false)
       table.text(:moderation_state, :null => false)
       table.timestamps
