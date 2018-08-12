@@ -24,9 +24,6 @@
       "value": "5",
       "required": true
     },
-    "RAILS_SESSION_SECRET": {
-      "generator": "secret"
-    },
     "WEB_CONCURRENCY": {
       "value": "2",
       "required": true
