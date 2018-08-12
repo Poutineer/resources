@@ -6,11 +6,11 @@ RSpec.describe(Question, :type => :model) do
       create(:question)
     end
 
-    it("is valid") do
+    pending("is valid") do
       expect(model).to be_valid
     end
 
-    it("saves to the database") do
+    pending("saves to the database") do
       expect(model).to be_persisted
     end
   end
