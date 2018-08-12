@@ -10,3 +10,11 @@
   0. Create a realizer in `app/realizers/{version}/{name}_realizer.rb`
   0. For each action allowed create a schema: `app/schemas/{version}/{plural(name)}/{action}_schema.rb`
   0. Create a serializer in `app/serializers/{version}/{name}_serializer.rb`
+
+## Setup
+
+  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_SIDEKIQ
+  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_OBJECTS
+  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=volatile-lru --as=REDIS_CACHE
+  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_REDLOCK
+  0. bin/rake secret && bin/rake secret && bin/rake secret && bin/rake secret
