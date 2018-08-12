@@ -28,7 +28,9 @@ module V1
 
       authorize(realization.model)
 
-      render(:json => serialize(realization))
+      if stale?(realization.model)
+        render(:json => serialize(realization))
+      end
     end
 
     def create
