@@ -1,0 +1,4 @@
+[submodule "docs"]
+	path = docs
+	url = git@github.com:Poutineer/origin-documentation.git
+	branch = master
