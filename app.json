@@ -5,13 +5,13 @@
     "postdeploy": "bin/postdeploy"
   },
   "env": {
-    "WWW_LOCATION": {
+    "WWW_ORIGIN": {
       "required": true
     },
-    "ORIGIN_LOCATION": {
+    "ORIGIN_ORIGIN": {
       "required": true
     },
-    "HOME_LOCATION": {
+    "HOME_ORIGIN": {
       "required": true
     },
     "RAILS_HOST": {

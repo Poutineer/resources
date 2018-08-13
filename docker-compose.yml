@@ -31,9 +31,9 @@ services:
       - WEB_CONCURRENCY=2
       - RAILS_EMAIL_HOST=localhost
       - RAILS_EMAIL_USER=noreply
-      - ORIGIN_LOCATION=http://origin.poutineer.local
-      - HOME_LOCATION=http://origin.poutineer.local
-      - WWW_LOCATION=http://www.poutineer.local
+      - ORIGIN_ORIGIN=http://origin.poutineer.local
+      - HOME_ORIGIN=http://origin.poutineer.local
+      - WWW_ORIGIN=http://www.poutineer.local
       - RAILS_HOST=origin.poutineer.local
       - VIRTUAL_HOST=origin.poutineer.local
       - BUGSNAG_API_PRIVATE

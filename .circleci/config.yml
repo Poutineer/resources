@@ -18,9 +18,9 @@ shared:
         WEB_CONCURRENCY: 2
         RAILS_MAX_THREADS: 2
         RACK_TIMEOUT_SERVICE_TIMEOUT: 25
-        WWW_LOCATION: "localhost"
-        ORIGIN_LOCATION: "http://localhost:3001"
-        HOME_LOCATION: "http://localhost:3001"
+        WWW_ORIGIN: "localhost"
+        ORIGIN_ORIGIN: "http://localhost:3001"
+        HOME_ORIGIN: "http://localhost:3001"
         RAILS_EMAIL_HOST: "localhost"
         RAILS_EMAIL_USER: "noreply"
         RAILS_HOST: "localhost"
