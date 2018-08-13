@@ -2,7 +2,7 @@ module V1
   class AnswersController < ::V1::ApplicationController
     discoverable(
       :version => "v1",
-      :namespace => "accounts"
+      :namespace => "answers"
     )
 
     def show

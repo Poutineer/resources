@@ -2,7 +2,7 @@ module V1
   class RecipesController < ::V1::ApplicationController
     discoverable(
       :version => "v1",
-      :namespace => "accounts"
+      :namespace => "recipes"
     )
 
     def index

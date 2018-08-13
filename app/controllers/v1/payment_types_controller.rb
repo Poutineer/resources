@@ -2,7 +2,7 @@ module V1
   class PaymentTypesController < ::V1::ApplicationController
     discoverable(
       :version => "v1",
-      :namespace => "accounts"
+      :namespace => "payment-types"
     )
 
     def index
