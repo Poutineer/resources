@@ -86,4 +86,5 @@ group(:development) do
   gem("rubocop", "0.58.2", :require => false)
   gem("ruby-prof", "0.17.0", :require => false)
   gem("stackprof", "0.2.12", :require => false)
+  gem("addressable", "2.5.2", :require => false)
 end
