@@ -18,27 +18,27 @@ namespace :docs do
       resource_mapping = Oj.load(http.request(request).read_body)
         .fetch("data")
         .map {|resource| resource.fetch("attributes") }
+        .select {|resource| resource.fetch("version") == ENV["VERSION"] || "v1"}
         .map {|attributes| attributes.transform_keys(&:underscore)}
-        .group_by {|attributes| [attributes.fetch("namespace"), attributes.fetch("version")]}
+        .group_by {|attributes| attributes.fetch("namespace")}
 
       resource_mapping
-        .each do |(namespace, version), collection|
+        .each do |namespace, collection|
           template = ERB.new(File.read(Rails.root.join("docs", "_resource.md.erb")), nil, "%<>")
           data = {
             collection: collection,
-            version: version,
             updated_at: Time.now.iso8601,
             namespace: namespace
           }
-          File.write(Rails.root.join("docs", "#{namespace}-#{version}.md"), template.result_with_hash(data))
+          File.write(Rails.root.join("docs", "#{namespace}.md"), template.result_with_hash(data))
         end
 
-      resource_index = resource_mapping
+      namespaces = resource_mapping
         .keys
-        .map {|(namespace, version)| {namespace: namespace, version: version}}
+
       template_filename = Rails.root.join("docs", "_toc.md.erb")
       template = ERB.new(File.read(template_filename), nil, "%<>")
-      File.write(Rails.root.join("docs", "SUMMARY.md"), template.result_with_hash({indexes: resource_index}))
+      File.write(Rails.root.join("docs", "SUMMARY.md"), template.result_with_hash({namespaces: namespaces}))
     end
   end
 end
