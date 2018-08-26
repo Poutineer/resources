@@ -53,6 +53,7 @@ gem("redlock", "0.2.2")
 gem("flag_shih_tzu", "0.3.19")
 gem("redcarpet", "3.4.0")
 gem("google_places", "1.1.0")
+gem("rack-rewrite", "1.5.1")
 gem("bootsnap", "1.3.0", :require => false)
 
 group(:production) do
