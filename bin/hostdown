@@ -3,4 +3,4 @@
 echo "- Setting hostnames" &&
 sudo npm run hostile -- remove redis.poutineer.local &&
 sudo npm run hostile -- remove postgres.poutineer.local &&
-sudo npm run hostile -- remove origin.poutineer.local
+sudo npm run hostile -- remove resources.poutineer.local

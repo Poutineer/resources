@@ -1,11 +1,11 @@
 version: '2'
 services:
-  origin:
+  resources:
     build:
       context: ./
-      dockerfile: Dockerfile.origin
+      dockerfile: Dockerfile.resources
     volumes:
-      - ./:/usr/lib/origin
+      - ./:/usr/lib/resources
     depends_on:
       - postgres
       - redis-sidekiq
@@ -31,14 +31,14 @@ services:
       - WEB_CONCURRENCY=2
       - RAILS_EMAIL_HOST=localhost
       - RAILS_EMAIL_USER=noreply
-      - ORIGIN_ORIGIN=http://origin.poutineer.local
-      - HOME_ORIGIN=http://origin.poutineer.local
+      - RESOURCES_ORIGIN=http://resources.poutineer.local
+      - HOME_ORIGIN=http://resources.poutineer.local
       - WWW_ORIGIN=http://www.poutineer.local
-      - RAILS_HOST=origin.poutineer.local
-      - VIRTUAL_HOST=origin.poutineer.local
+      - RAILS_HOST=resources.poutineer.local
+      - VIRTUAL_HOST=resources.poutineer.local
       - BUGSNAG_API_PRIVATE
-      - ORIGIN_ENCRYPTION_SECRET
-      - ORIGIN_ENCRYPTION_SALT
+      - ENCRYPTION_SECRET
+      - ENCRYPTION_SALT
   postgres:
     image: postgres:9.6-alpine
     environment:
