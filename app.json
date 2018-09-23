@@ -1,6 +1,6 @@
 {
   "name": "poutineer",
-  "description": "The poutineer origin service",
+  "description": "The poutineer resources service",
   "scripts": {
     "postdeploy": "bin/postdeploy"
   },
