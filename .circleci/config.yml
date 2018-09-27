@@ -10,9 +10,6 @@ shared:
         PGHOST: "127.0.0.1"
         PGUSER: "blankapirails"
         PORT: 3000
-        RAILS_MASTER_KEY: "b2f6f2326268f8d9fe16908969359f12"
-        ENCRYPTION_SECRET: "c312adc329d7c11c8bfc17d52f7269aceca1ef55372ae2586a1d3e3ae8304f7056e6b3b556fb5fdfdfe86566604f51b5636dd93b5522d08f29b8f3dd022104bd"
-        ENCRYPTION_SALT: "c312adc329d7c11c8bfc17d52f7269aceca1ef55372ae2586a1d3e3ae8304f7056e6b3b556fb5fdfdfe86566604f51b5636dd93b5522d08f29b8f3dd022104bd"
         RAILS_ENV: "test"
         RACK_ENV: "test"
         WEB_CONCURRENCY: 2
@@ -70,29 +67,41 @@ workflows:
   version: 2
   core:
     jobs:
-      - "server_setup"
+      -
+        server_dependencies_setup:
+          context: "Rails Environment"
+      -
+        database_setup:
+          context: "Rails Environment"
+          requires:
+            - "server_dependencies"
+      -
+        server_setup:
+          context: "Rails Environment"
       -
         bundler_audit:
+          context: "Rails Environment"
           requires:
-            - "server_setup"
+            - "server_dependencies"
       -
         brakeman:
+          context: "Rails Environment"
           requires:
-            - "server_setup"
+            - "server_dependencies"
       -
         rubocop:
+          context: "Rails Environment"
           requires:
-            - "server_setup"
+            - "server_dependencies"
       -
         rspec:
+          context: "Rails Environment"
           requires:
-            - "server_setup"
+            - "database_setup"
 jobs:
-  server_setup:
+  server_dependencies_setup:
     docker:
       - *ruby_docker
-      - *postgres_docker
-      - *redis_docker
     steps:
       - *git_restore
       - "checkout"
@@ -103,6 +112,15 @@ jobs:
           name: "Install bundler dependencies"
           command: "bundle check || bundle install"
       - *bundler_save
+  database_setup:
+    docker:
+      - *ruby_docker
+      - *postgres_docker
+    steps:
+      - *git_restore
+      - "checkout"
+      - *git_save
+      - *bundler_restore
       -
         run:
           name: "Database Healthcheck"
@@ -126,8 +144,6 @@ jobs:
   bundler_audit:
     docker:
       - *ruby_docker
-      - *postgres_docker
-      - *redis_docker
     steps:
       - *git_restore
       - "checkout"
@@ -139,8 +155,6 @@ jobs:
   brakeman:
     docker:
       - *ruby_docker
-      - *postgres_docker
-      - *redis_docker
     steps:
       - *git_restore
       - "checkout"
@@ -152,8 +166,6 @@ jobs:
   rubocop:
     docker:
       - *ruby_docker
-      - *postgres_docker
-      - *redis_docker
     steps:
       - *git_restore
       - "checkout"
