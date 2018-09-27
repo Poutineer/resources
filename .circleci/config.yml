@@ -74,29 +74,27 @@ workflows:
         database_setup:
           context: "Rails Environment"
           requires:
-            - "server_dependencies"
-      -
-        server_setup:
-          context: "Rails Environment"
+            - "server_dependencies_setup"
       -
         bundler_audit:
           context: "Rails Environment"
           requires:
-            - "server_dependencies"
+            - "server_dependencies_setup"
       -
         brakeman:
           context: "Rails Environment"
           requires:
-            - "server_dependencies"
+            - "server_dependencies_setup"
       -
         rubocop:
           context: "Rails Environment"
           requires:
-            - "server_dependencies"
+            - "server_dependencies_setup"
       -
         rspec:
           context: "Rails Environment"
           requires:
+            - "server_dependencies_setup"
             - "database_setup"
 jobs:
   server_dependencies_setup:
