@@ -77,6 +77,7 @@ group(:development, :test) do
   gem("factory_bot_rails", "4.10.0")
   gem("faker", "1.9.1")
   gem("pry-byebug", "3.6.0")
+  gem("bullet", "5.7.5")
 end
 
 group(:test) do
@@ -90,7 +91,6 @@ end
 
 group(:development) do
   gem("brakeman", "4.3.1", :require => false)
-  gem("bullet", "5.7.5")
   gem("bundler-audit", "0.6.0", :require => false)
   gem("flamegraph", "0.9.5", :require => false)
   gem("memory_profiler", "0.9.11", :require => false)
