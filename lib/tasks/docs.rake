@@ -17,8 +17,8 @@ namespace :docs do
 
       resource_mapping = Oj.load(http.request(request).read_body)
         .fetch("data")
-        .map {|resource| resource.fetch("attributes") }
-        .select {|resource| resource.fetch("version") == ENV["VERSION"] || "v1"}
+        .map {|resource| resource.fetch("attributes")}
+        .select {|resource| resource.fetch("version") == ENV.fetch("VERSION", "v1")}
         .map {|attributes| attributes.transform_keys(&:underscore)}
         .group_by {|attributes| attributes.fetch("namespace")}
 
