@@ -86,7 +86,7 @@ group(:test) do
   gem("timecop", "0.9.1")
   gem("rspec-sidekiq", "3.0.3")
   gem("database_cleaner", "1.7.0")
-  gem("rspec_junit_formatter", "0.4.1", :require => ENV.fetch("CI", nil))
+  gem("rspec_junit_formatter", "0.4.1", :require => unless ENV.fetch("CI", nil) then false end)
 end
 
 group(:development) do
