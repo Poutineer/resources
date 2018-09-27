@@ -4,7 +4,7 @@ RSpec.describe(Submission, :type => :model) do
   let(:actor) {create(:account)}
   let(:submission) {Submission.new(:id => "#{model.class.name}-#{model.id}", :subject => model)}
 
-  context("when the submission is an establishment") do
+  xcontext("when the submission is an establishment") do
     include_context("Google Places API")
 
     let(:model) {build(:establishment)}

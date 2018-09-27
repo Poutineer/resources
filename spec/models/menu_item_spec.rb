@@ -1,7 +1,7 @@
 require("rails_helper")
 
 RSpec.describe(MenuItem, :type => :model) do
-  context("creating a record") do
+  xcontext("creating a record") do
     let(:model) do
       create(:menu_item)
     end

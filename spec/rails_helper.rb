@@ -37,7 +37,7 @@ RSpec::Sidekiq.configure do |config|
   config.clear_all_enqueued_jobs = true
 
   # Whether to use terminal colours when outputting messages
-  config.enable_terminal_colours = true
+  config.enable_terminal_colours = false
 
   # Warn when jobs are not enqueued to Redis but to a job array
   config.warn_when_jobs_not_processed_by_sidekiq = true
@@ -45,7 +45,7 @@ end
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = Rails.root.join("spec", "fixtures")
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
