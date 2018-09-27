@@ -71,11 +71,6 @@ workflows:
         server_dependencies_setup:
           context: "Rails Environment"
       -
-        database_setup:
-          context: "Rails Environment"
-          requires:
-            - "server_dependencies_setup"
-      -
         bundler_audit:
           context: "Rails Environment"
           requires:
@@ -95,7 +90,6 @@ workflows:
           context: "Rails Environment"
           requires:
             - "server_dependencies_setup"
-            - "database_setup"
 jobs:
   server_dependencies_setup:
     docker:
@@ -110,35 +104,6 @@ jobs:
           name: "Install bundler dependencies"
           command: "bundle check || bundle install"
       - *bundler_save
-  database_setup:
-    docker:
-      - *ruby_docker
-      - *postgres_docker
-    steps:
-      - *git_restore
-      - "checkout"
-      - *git_save
-      - *bundler_restore
-      -
-        run:
-          name: "Database Healthcheck"
-          command: "dockerize -wait tcp://localhost:5432 -timeout 1m"
-      -
-        run:
-          name: "Adding postgresql to apt sources"
-          command: "sudo su -c \"echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >> /etc/apt/sources.list.d/pgdg.list\""
-      -
-        run:
-          name: "Fetching postgresql apt-key"
-          command: "wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -"
-      -
-        run:
-          name: "Installing postgres-client"
-          command: "sudo apt-get update && sudo apt-get install postgresql-client-10"
-      -
-        run:
-          name: "Load databsase schema"
-          command: "bundle exec rake db:create --trace"
   bundler_audit:
     docker:
       - *ruby_docker
@@ -183,6 +148,10 @@ jobs:
       - *bundler_restore
       -
         run:
+          name: "Database Healthcheck"
+          command: "dockerize -wait tcp://localhost:5432 -timeout 1m"
+      -
+        run:
           name: "Adding postgresql to apt sources"
           command: "sudo su -c \"echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >> /etc/apt/sources.list.d/pgdg.list\""
       -
@@ -193,6 +162,10 @@ jobs:
         run:
           name: "Installing postgres-client"
           command: "sudo apt-get update && sudo apt-get install postgresql-client-10"
+      -
+        run:
+          name: "Load databsase schema"
+          command: "bundle exec rake db:create --trace"
       -
         run:
           name: "Running RSpec"
