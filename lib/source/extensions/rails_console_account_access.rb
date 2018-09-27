@@ -1,10 +1,6 @@
 module RailsConsoleAccountAccess
   def initialize(*arguments)
-    return super(*arguments) if Rails.env.development? || Rails.env.test? || !Account.exists?
-
-    if Rails.env.development? || Rails.env.test?
-      actor = Account.with_role_state(:administrator).last
-    else
+    if Account.exists? && Rails.env.production?
       Rails.logger.info("Welcome! What is your email?")
       email = gets.chomp
 
@@ -13,6 +9,10 @@ module RailsConsoleAccountAccess
       actor = Account.find_by!(:email => email)
 
       Rails.logger.info("What is your password?")
+    elsif Account.exists?
+      actor = Account.with_role_state(:administrator).last
+    else
+      actor = ActorNull.new
     end
 
     PaperTrail.request.whodunnit = actor.email
