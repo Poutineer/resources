@@ -1,1 +1,3 @@
-GOOGLE_PLACES_CLIENT = GooglePlaces::Client.new(ENV.fetch("GOOGLE_PLACES_API_SECRET")) unless Rails.env.test?
+GOOGLE_PLACES_CLIENT = GooglePlaces::Client.new(
+  Rails.application.credentials.public_send(Rails.env.to_sym).fetch(:google).fetch(:places).fetch(:secret)
+)
