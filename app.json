@@ -17,9 +17,6 @@
     "RAILS_HOST": {
       "required": true
     },
-    "ENCRYPTION_SECRET": {
-      "generator": "secret"
-    },
     "ENCRYPTION_SALT": {
       "generator": "secret"
     },
@@ -126,6 +123,13 @@
       "as": "REDIS_CACHE",
       "options": {
         "maxmemory_policy": "volatile-lru"
+      }
+    },
+    {
+      "plan": "heroku-redis:hobby-dev",
+      "as": "REDIS_ACTION_CABLE",
+      "options": {
+        "maxmemory_policy": "noeviction"
       }
     },
     "mailtrap"

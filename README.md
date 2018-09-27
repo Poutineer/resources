@@ -1,3 +1,9 @@
+## Todo
+
+  - Francises
+  - highlight ask for password
+  - Turn rails console access into gem
+
 ## Notes
 
 ### Making a new resource
@@ -13,8 +19,8 @@
 
 ## Setup
 
-  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_SIDEKIQ
-  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_OBJECTS
-  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=volatile-lru --as=REDIS_CACHE
-  0. heroku addons:create heroku-redis:{tier} --app=poutineer-origin-{environment} --maxmemory_policy=noeviction --as=REDIS_REDLOCK
-  0. bin/rake secret && bin/rake secret && bin/rake secret && bin/rake secret
+  0. `heroku addons:create heroku-redis:hobby-dev --app={application} --maxmemory_policy=noeviction --as=REDIS_SIDEKIQ`
+  0. `heroku addons:create heroku-redis:hobby-dev --app={application} --maxmemory_policy=noeviction --as=REDIS_OBJECTS`
+  0. `heroku addons:create heroku-redis:hobby-dev --app={application} --maxmemory_policy=volatile-lru --as=REDIS_CACHE`
+  0. `heroku addons:create heroku-redis:hobby-dev --app={application} --maxmemory_policy=noeviction --as=REDIS_REDLOCK`
+  0. `heroku addons:create heroku-redis:hobby-dev --app={application} --maxmemory_policy=noeviction --as=REDIS_ACTION_CABLE`

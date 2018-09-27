@@ -1,5 +1,7 @@
 module RailsConsoleAccountAccess
   def initialize(*arguments)
+    return super(*arguments) if Rails.env.development? || Rails.env.test? || !Account.exists?
+
     if Rails.env.development? || Rails.env.test?
       actor = Account.with_role_state(:administrator).last
     else
@@ -9,6 +11,8 @@ module RailsConsoleAccountAccess
       raise(NoConsoleAuthenticationProvidedError) if email.blank?
 
       actor = Account.find_by!(:email => email)
+
+      Rails.logger.info("What is your password?")
     end
 
     PaperTrail.request.whodunnit = actor.email
