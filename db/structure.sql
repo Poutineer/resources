@@ -77,8 +77,8 @@ CREATE TABLE public.accounts (
     name text,
     email public.citext,
     username public.citext,
-    onboarding_state public.citext NOT NULL,
-    role_state public.citext NOT NULL,
+    onboarding_state public.citext DEFAULT 'converted'::public.citext NOT NULL,
+    role_state public.citext DEFAULT 'user'::public.citext NOT NULL,
     encrypted_password text NOT NULL,
     authentication_secret text NOT NULL,
     reset_password_token text,
@@ -460,8 +460,9 @@ CREATE TABLE public.reviews (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     author_id uuid NOT NULL,
     body text NOT NULL,
-    slug text NOT NULL,
     moderation_state text NOT NULL,
+    reviewable_id uuid NOT NULL,
+    reviewable_type text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -489,7 +490,6 @@ CREATE TABLE public.versions (
     actor_id uuid,
     context_id uuid NOT NULL,
     transitions jsonb,
-    object json DEFAULT '{}'::json NOT NULL,
     object_changes jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp without time zone NOT NULL
 );
@@ -1165,6 +1165,13 @@ CREATE INDEX index_reviews_on_moderation_state ON public.reviews USING btree (mo
 
 
 --
+-- Name: index_reviews_on_reviewable_id_and_reviewable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_reviewable_id_and_reviewable_type ON public.reviews USING btree (reviewable_id, reviewable_type);
+
+
+--
 -- Name: index_versions_on_actor_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1390,3 +1397,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180707215041'),
 ('20180707215045'),
 ('20180707215806');
+
+

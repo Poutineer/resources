@@ -41,6 +41,10 @@ class Account < ApplicationRecord
       transition(:user => :administrator)
     end
 
+    event(:upgrade_to_moderator) do
+      transition(:user => :moderator)
+    end
+
     event(:downgrade_to_user) do
       transition(:from => [:administrator], :to => :user)
     end
@@ -52,6 +56,12 @@ class Account < ApplicationRecord
     after_transition(:on => :upgrade_to_administrator) do |record|
       record.after_transaction do
         AccountRoleMailer.with(:destination => record).upgraded_to_administrator.deliver_later
+      end
+    end
+
+    after_transition(:on => :upgrade_to_moderator) do |record|
+      record.after_transaction do
+        AccountRoleMailer.with(:destination => record).upgraded_to_moderator.deliver_later
       end
     end
 

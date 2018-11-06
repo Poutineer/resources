@@ -5,6 +5,7 @@ class MenuItem < ApplicationRecord
   belongs_to(:establishment)
   has_and_belongs_to_many(:diets)
   has_and_belongs_to_many(:allergies)
+  has_many(:reviews, :as => :reviewable)
 
   Gutentag::ActiveRecord.(self)
 
@@ -12,4 +13,5 @@ class MenuItem < ApplicationRecord
 
   validates_presence_of(:name)
   validates_presence_of(:slug)
+  validates_presence_of(:body)
 end
