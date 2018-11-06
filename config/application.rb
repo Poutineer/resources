@@ -84,7 +84,6 @@ module Poutineer
       }
     ]
 
-
     unless Rails.env.test?
       # Set a tag-based logger to STDOUT
       config.logger = ActiveSupport::TaggedLogging.new(

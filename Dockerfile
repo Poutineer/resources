@@ -1,8 +1,7 @@
-FROM ruby:2.5.0-stretch
+FROM ruby:2.5.1-stretch
 
 ENV APPLICATION /usr/lib/resources
 ENV RAILS_ENV production
-ENV PORT 3001
 
 WORKDIR /app
 
@@ -12,6 +11,7 @@ COPY config/ config/
 COPY db/ db/
 COPY lib/ lib/
 COPY public/ public/
+COPY vendor/ vendor/
 COPY config.ru config.ru
 COPY Rakefile Rakefile
 COPY Gemfile Gemfile
