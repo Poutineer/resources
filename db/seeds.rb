@@ -58,6 +58,22 @@ PaperTrail.request(:whodunnit => Account::MACHINE_ID, :controller_info => {:cont
       ])
     end
 
+    if Rails.env.development? && ENV.key?("BENCHMARK")
+      1000.times.each do
+        FactoryBot.create(
+          :account,
+          *[
+            *15.times.map {[]},
+            *25.times.map {[:confirmed]},
+            *45.times.map {[:confirmed, :completed]},
+            *10.times.map {[:confirmed, :completed, :moderator]},
+            *5.times.map {[:confirmed, :completed, :administrator]}
+          ].sample
+        )
+      end
+    end
+
+
     if Rails.env.production? && Account.count.zero?
       krainboltgreene = Account.create!(
         :username => "krainboltgreene",
