@@ -122,6 +122,6 @@ class ApplicationPolicy
   end
 
   private def administrator?
-    account.role_state?(:administrator)
+    actor.role_state?(:administrator)
   end
 end
