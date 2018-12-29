@@ -1,10 +1,11 @@
 module V1
-  class AccountRealizer
-    include(JSONAPI::Realizer::Resource)
-    include(Pundit)
+  class AccountRealizer < ApplicationRealizer
+    type(:accounts, :class_name => "Account", :adapter => :active_record)
 
-    register(:accounts, :class_name => "Account", :adapter => :active_record)
+    has_many(:reviews, :class_name => "V1::ReviewRealizer")
 
     has(:email)
+    has(:name)
+    has(:username)
   end
 end
