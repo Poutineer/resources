@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   devise_for(:accounts)
 
-  mount(JSONAPI::Home::Engine, :at => "/")
 
   namespace(:v1) do
     resources(:accounts, :only => [:index, :show, :create, :update, :destroy])

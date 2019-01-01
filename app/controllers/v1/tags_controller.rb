@@ -1,9 +1,5 @@
 module V1
   class TagsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "tags"
-    )
 
     def index
       authorize(policy_scope(Tag))

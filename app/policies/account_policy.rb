@@ -23,7 +23,7 @@ class AccountPolicy < ApplicationPolicy
     only_logged_in
   end
 
-  def read_attribute_authentication_secret?
-    (actor == record) || record.new_record?
+  def name_readable?
+    administrator? || yourself? || owner? || record.new_record?
   end
 end

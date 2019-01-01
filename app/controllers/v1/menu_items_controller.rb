@@ -1,9 +1,5 @@
 module V1
   class MenuItemsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "menu-items"
-    )
 
     def index
       authorize(policy_scope(MenuItem))

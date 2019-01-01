@@ -1,9 +1,5 @@
 module V1
   class SessionsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "sessions"
-    )
 
     def create
       parameters = Sessions::CreateSchema.new(request.parameters)
