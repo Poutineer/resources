@@ -1,9 +1,5 @@
 module V1
   class EstablishmentsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "establishments"
-    )
 
     def index
       authorize(policy_scope(Establishment))

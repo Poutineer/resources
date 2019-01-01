@@ -1,9 +1,5 @@
 module V1
   class ReviewsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "reviews"
-    )
 
     def index
       authorize(policy_scope(Review))

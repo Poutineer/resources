@@ -1,9 +1,5 @@
 module V1
   class AllergiesController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "allergies"
-    )
 
     def index
       authorize(policy_scope(Allergy))

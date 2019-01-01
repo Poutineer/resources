@@ -1,9 +1,5 @@
 module V1
   class PaymentTypesController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "payment-types"
-    )
 
     def index
       authorize(policy_scope(Diet))

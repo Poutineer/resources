@@ -1,9 +1,5 @@
 module V1
   class DietsController < ::V1::ApplicationController
-    discoverable(
-      :version => "v1",
-      :namespace => "diets"
-    )
 
     def index
       authorize(policy_scope(Diet))
